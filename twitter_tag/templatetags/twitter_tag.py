@@ -55,6 +55,12 @@ class BaseTwitterTag(Tag):
                                          settings.TWITTER_CONSUMER_KEY,
                                          settings.TWITTER_CONSUMER_SECRET))
             json = self.get_json(twitter, **self.get_api_call_params(**kwargs))
+
+            print len(json)
+
+            if len(json) <= 0:
+                json = self.get_json(twitter, **self.get_api_fallback_call_params(**kwargs))
+
         except (TwitterError, URLError, ValueError, http_client.HTTPException) as e:
             logging.getLogger(__name__).error(str(e))
             context[kwargs['asvar']] = cache.get(cache_key, [])
@@ -119,6 +125,7 @@ class SearchTag(BaseTwitterTag):
         'as', Argument('asvar', resolve=False),
         MultiKeywordArgument('options', required=False),
         'limit', Argument('limit', required=False),
+        'fallback', Argument('fallback', required=False),
     )
 
     def get_cache_key(self, kwargs_dict):
@@ -126,6 +133,11 @@ class SearchTag(BaseTwitterTag):
 
     def get_api_call_params(self, **kwargs):
         params = {'q': kwargs['q'].encode('utf-8')}
+        params.update(kwargs['options'])
+        return params
+
+    def get_api_fallback_call_params(self, **kwargs):
+        params = {'q': kwargs['fallback'].encode('utf-8')}
         params.update(kwargs['options'])
         return params
 
