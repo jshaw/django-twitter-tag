@@ -56,8 +56,6 @@ class BaseTwitterTag(Tag):
                                          settings.TWITTER_CONSUMER_SECRET))
             json = self.get_json(twitter, **self.get_api_call_params(**kwargs))
 
-            print len(json)
-
             if len(json) <= 0:
                 json = self.get_json(twitter, **self.get_api_fallback_call_params(**kwargs))
 
