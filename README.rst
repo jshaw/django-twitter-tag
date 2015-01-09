@@ -124,9 +124,13 @@ Search api arguments are supported via key=value pairs::
 
     {% search_tweets for "python 3" as tweets lang='eu' result_type='popular' %}
 
-Add a fallback search query if the supplied hashtag doesn't return any results::
+Add a fallback search query if the supplied hashtag doesn't return any results:
 
-    {% search_tweets for "SuperObscureHashTag" as tweets limit 20 fallback "Art" %}
+    {% search_tweets for "SuperObscureHashTag" as tweets fallback "Art" limit 20 %}
+
+Add an exclusion query for your search and a fallback search query if the supplied hashtag doesn't return any results:
+
+    {% search_tweets for "outerspace" as tweets exclude " -#nasa" fallback "space" limit 20 %}
 
 Relevant `API docs for search`_.
 

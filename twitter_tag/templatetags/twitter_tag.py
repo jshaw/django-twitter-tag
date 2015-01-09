@@ -122,8 +122,9 @@ class SearchTag(BaseTwitterTag):
         'for', Argument('q'),
         'as', Argument('asvar', resolve=False),
         MultiKeywordArgument('options', required=False),
-        'limit', Argument('limit', required=False),
+        'exclude', Argument('exclude', required=False),
         'fallback', Argument('fallback', required=False),
+        'limit', Argument('limit', required=False),
     )
 
     def get_cache_key(self, kwargs_dict):
